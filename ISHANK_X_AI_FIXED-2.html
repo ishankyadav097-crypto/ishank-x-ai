@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+<title>ISHANK X AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0d12; --panel2:#12141c; --card:#151822;
+  --border:rgba(255,255,255,0.08); --borderStrong:rgba(255,255,255,0.14);
+  --cyan:#5B8DEF; --blue:#5B8DEF; --purple:#5B8DEF; --pink:#5B8DEF; --accent:#5B8DEF; --accentSoft:rgba(91,141,239,0.14);
+  --text:#EDEFF5; --muted:#9AA0AE; --mutedDim:#6B7280; --ok:#3CCB7F; --danger:#F1595C; --warn:#F5A623;
+  --gradient:var(--accent);
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'Inter',ui-sans-serif,system-ui,sans-serif;}
+body{padding-bottom:78px;}
+h1,h2,h3{font-family:'Inter',sans-serif; margin:0; letter-spacing:-0.01em;}
+a{color:inherit; text-decoration:none;}
+button{font-family:inherit; cursor:pointer;}
+input,textarea,select{font-family:inherit;}
+::selection{background:rgba(91,141,239,.3);}
+::-webkit-scrollbar{height:6px;width:6px;}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14); border-radius:6px;}
+
+.wrap{max-width:480px; margin:0 auto; padding:0 16px;}
+.hide{display:none !important;}
+
+/* header */
+.header{position:sticky; top:0; z-index:40; background:rgba(11,13,18,.92); border-bottom:1px solid var(--border);}
+.header-inner{display:flex; align-items:center; justify-content:space-between; padding:14px 16px;}
+.brand{display:flex; align-items:center; gap:10px; background:none; border:none; color:inherit;}
+.brand-logo{width:32px;height:32px;border-radius:9px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:15px;}
+.brand-name{font-size:14px;font-weight:700;letter-spacing:0;line-height:1;}
+.brand-sub{font-size:10px;color:var(--mutedDim);margin-top:2px;}
+.header-actions{display:flex;align-items:center;gap:8px;}
+.chip-safe{display:flex;align-items:center;gap:6px;border-radius:8px;padding:6px 10px;font-size:10px;font-weight:700;border:1px solid;}
+.chip-safe.on{background:rgba(60,203,127,.10);border-color:rgba(60,203,127,.25);color:var(--ok);}
+.chip-safe.off{background:rgba(241,89,92,.10);border-color:rgba(241,89,92,.25);color:var(--danger);}
+.icon-btn{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:8px;display:flex;align-items:center;justify-content:center;color:var(--text);}
+
+/* cards */
+.card{background:var(--card); border:1px solid var(--border); border-radius:14px;}
+.pad{padding:16px;}
+.pad-lg{padding:18px;}
+
+/* buttons */
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;border-radius:11px;padding:13px 16px;font-size:14px;font-weight:600;border:1px solid transparent;width:100%;transition:opacity .12s;}
+.btn:active{opacity:.75;}
+.btn-solid{background:var(--accent);color:#fff;}
+.btn-ghost{background:var(--card);border-color:var(--border);color:var(--text);}
+.btn-danger{background:rgba(241,89,92,.10);border-color:rgba(241,89,92,.25);color:var(--danger);}
+.btn-auto{width:auto;}
+.btn-sm{padding:8px 12px;font-size:12px;}
+
+/* pills / chips */
+.pill-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;}
+.pill-row::-webkit-scrollbar{display:none;}
+.pill{white-space:nowrap;border-radius:9px;padding:7px 14px;font-size:13px;border:1px solid var(--border);background:var(--card);color:var(--muted);font-weight:500;}
+.pill.sm{padding:5px 12px;font-size:11px;}
+.pill.active{background:var(--accent);color:#fff;font-weight:600;border-color:transparent;}
+
+/* inputs */
+.field{display:block;margin-bottom:12px;}
+.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:500;}
+.input,.textarea,.select{width:100%;background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:11px 12px;color:var(--text);font-size:14px;outline:none;}
+.input:focus,.textarea:focus,.select:focus{border-color:var(--accent);}
+.textarea{min-height:96px;resize:vertical;}
+.search-bar{display:flex;align-items:center;gap:8px;border-radius:10px;padding:11px 14px;background:var(--card);border:1px solid var(--border);}
+.search-bar input{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-size:14px;}
+
+/* toggle */
+.toggle{width:48px;height:28px;border-radius:999px;border:1px solid var(--border);background:var(--panel2);position:relative;display:inline-block;}
+.toggle.on{background:var(--accent);border-color:transparent;}
+.toggle .knob{position:absolute;top:2px;left:2px;width:22px;height:22px;border-radius:50%;background:var(--mutedDim);transition:transform .18s;}
+.toggle.on .knob{background:#fff;transform:translateX(20px);}
+
+/* section title */
+.section-title{display:flex;align-items:center;gap:8px;margin:22px 0 12px;}
+.section-title h2{font-size:15px;font-weight:700;}
+
+/* grid */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.hscroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;margin:0 -16px;padding-left:16px;padding-right:16px;}
+.hscroll::-webkit-scrollbar{display:none;}
+.flex-col{display:flex;flex-direction:column;gap:10px;}
+
+/* content card */
+.content-card .row{display:flex;align-items:flex-start;gap:12px;}
+.content-icon{width:42px;height:42px;border-radius:10px;background:var(--panel2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.content-title{font-size:14px;font-weight:600;}
+.content-meta{font-size:12px;color:var(--muted);margin-top:2px;}
+.content-desc{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.4;}
+.content-body{margin-top:8px;background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;line-height:1.55;color:#cbd1de;white-space:pre-wrap;}
+.badge-featured{font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px;background:var(--accentSoft);color:var(--accent);}
+.card-actions{display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap;}
+.card-actions .spacer{flex:1;}
+.iconbox{background:var(--panel2);border:1px solid var(--border);border-radius:9px;padding:8px;display:flex;align-items:center;justify-content:center;}
+.iconbox.fav{background:rgba(241,89,92,.10);border-color:rgba(241,89,92,.25);}
+.link-expand{font-size:12px;font-weight:600;color:var(--accent);background:none;border:none;display:flex;align-items:center;gap:4px;}
+
+/* hero */
+.hero{border-radius:16px;padding:20px;margin:16px 0 20px;background:var(--card);border:1px solid var(--border);}
+.hero-inner{position:relative;}
+.hero h1{font-size:21px;font-weight:700;line-height:1.3;}
+.hero p{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.5;}
+.hero .btns{display:flex;flex-direction:column;gap:8px;margin-top:16px;}
+
+/* empty state */
+.empty{text-align:center;padding:56px 0;color:var(--mutedDim);}
+.empty .em{font-size:30px;margin-bottom:10px;opacity:.6;}
+.empty p{font-size:13px;}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:88px;transform:translateX(-50%);background:#1c1f28;border:1px solid var(--border);color:var(--text);padding:11px 18px;border-radius:10px;font-size:13px;font-weight:500;z-index:999;box-shadow:0 6px 20px rgba(0,0,0,.4);animation:riseIn .22s ease-out;}
+@keyframes riseIn{from{opacity:0;transform:translate(-50%,10px);}to{opacity:1;transform:translate(-50%,0);}}
+@keyframes spin{to{transform:rotate(360deg);}}
+.spinner{width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;animation:spin .7s linear infinite;}
+.spinner.light{border:2px solid rgba(91,141,239,.25);border-top-color:var(--accent);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.page-enter{animation:fadeUp .2s ease-out;}
+
+/* bottom nav */
+.bottomnav{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(11,13,18,.96);border-top:1px solid var(--border);}
+.bottomnav-inner{max-width:480px;margin:0 auto;display:grid;grid-template-columns:repeat(6,1fr);}
+.navbtn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 0;background:none;border:none;color:var(--mutedDim);}
+.navbtn.active{color:var(--accent);}
+.navbtn svg{width:19px;height:19px;}
+.navbtn span{font-size:9.5px;font-weight:500;}
+.navbtn.active span{font-weight:700;}
+
+/* side menu */
+.overlay{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.5);display:flex;justify-content:flex-end;}
+.sidemenu{width:250px;height:100%;background:var(--panel2);border-left:1px solid var(--border);padding:20px;}
+.sidemenu-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.sidemenu a,.sidemenu button.menu-link{display:flex;align-items:center;gap:10px;padding:11px 8px;border-radius:9px;font-size:14px;color:var(--text);background:none;border:none;width:100%;text-align:left;}
+
+/* subject chips solver */
+.subject-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
+.subject-chip{border-radius:10px;padding:11px 6px;text-align:center;background:var(--panel2);border:1px solid var(--border);color:var(--muted);font-size:12px;font-weight:500;}
+.subject-chip.active{background:var(--accent);color:#fff;border-color:transparent;font-weight:700;}
+.answer-box{white-space:pre-wrap;line-height:1.6;font-size:14px;color:#dfe3ff;}
+.imgpreview{width:100%;border-radius:10px;margin-top:10px;border:1px solid var(--border);max-height:180px;object-fit:cover;display:block;}
+
+/* image dropzone */
+.dropzone{border:1.5px dashed var(--border);border-radius:12px;padding:22px 14px;text-align:center;background:var(--panel2);cursor:pointer;position:relative;}
+.dropzone:active{border-color:var(--accent);}
+.dropzone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.dropzone .dz-icon{font-size:26px;margin-bottom:6px;}
+.dropzone .dz-title{font-size:13px;font-weight:600;color:var(--text);}
+.dropzone .dz-sub{font-size:11px;color:var(--mutedDim);margin-top:3px;}
+.tab-row{display:flex;gap:8px;margin-bottom:14px;background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:3px;}
+.tab-btn{flex:1;padding:9px 0;text-align:center;border-radius:8px;font-size:12.5px;font-weight:600;color:var(--muted);background:none;border:none;}
+.tab-btn.active{background:var(--card);color:var(--text);}
+
+/* misc */
+.muted{color:var(--muted);}
+.mutedDim{color:var(--mutedDim);}
+.center{text-align:center;}
+.tiny{font-size:11px;}
+.stat-num{font-size:22px;font-weight:700;}
+.stat-label{font-size:12px;font-weight:600;color:var(--accent);margin-top:2px;}
+.stat-sub{font-size:10px;color:var(--mutedDim);margin-top:2px;}
+.warnbox{border:1px solid rgba(245,166,35,.3) !important;}
+
+</style>
+
+</head>
+<body>
+<div id="header"></div>
+<main class="wrap" id="app"></main>
+<div id="bottomnav"></div>
+<div id="sidemenu"></div>
+<div id="toast"></div>
+
+<script>
+/* ============================================================
+   ISHANK X AI — single-file app
+   Storage: browser localStorage (per-device), with an in-memory
+   fallback so the app still runs if storage is blocked.
+   AI Doubt Solver: calls the Gemini API directly from the browser
+   using a key the user enters in Settings (see notes at bottom).
+   ============================================================ */
+
+/* ---------- tiny storage layer ---------- */
+const MEM = {};
+function dbGet(key, fallback){
+  try{ const raw = localStorage.getItem(key); if(raw!==null) return JSON.parse(raw); }catch(e){}
+  return key in MEM ? MEM[key] : fallback;
+}
+function dbSet(key, val){
+  MEM[key]=val;
+  try{ localStorage.setItem(key, JSON.stringify(val)); }catch(e){}
+}
+
+const uid = () => Math.random().toString(36).slice(2,10) + Date.now().toString(36).slice(-4);
+
+/* ---------- shared Gemini API key / proxy ----------
+   Preferred, secure setup: GEMINI_PROXY_URL points to a small
+   Cloudflare Worker that holds the real Gemini API key as a
+   server-side secret. The browser never sees the key at all.
+   If GEMINI_PROXY_URL is empty, the app falls back to calling
+   Google directly using DEFAULT_GEMINI_API_KEY (visible in this
+   file's source) or a personal key a visitor pastes in Settings. */
+const GEMINI_PROXY_URL = 'https://summer-math-4a58.ishankyadav097.workers.dev/';
+const DEFAULT_GEMINI_API_KEY = '';
+function getActiveApiKey(){
+  return (S.settings.geminiApiKey || DEFAULT_GEMINI_API_KEY || '').trim();
+}
+function hasWorkingAiAccess(){
+  return !!GEMINI_PROXY_URL || !!getActiveApiKey();
+}
+
+/* ---------- content type config ---------- */
+const TYPES = {
+  prompts:{label:'AI Prompts', singular:'Prompt', icon:'✨', categories:['AI Image','Portrait','Cinematic','Instagram','YouTube','Product','Anime','Realistic','Fashion','Trending'], hasCopy:true, bodyLabel:'Full Prompt'},
+  gpt:{label:'GPT Prompt Templates', singular:'Template', icon:'💻', categories:['Explain','Summarize','Rewrite','Translate','Brainstorm','Code','Idea','Study'], hasCopy:true, bodyLabel:'Full Template'},
+  tools:{label:'AI Tools', singular:'Tool', icon:'🛠', categories:['Chat','Image','Video','Audio','Writing','Coding','Productivity','Design'], hasLink:true, linkLabel:'Visit Tool', bodyLabel:'About'},
+  apps:{label:'Useful Apps', singular:'App', icon:'📱', categories:['Editing','AI','Education','Productivity','Utility','Entertainment'], hasLink:true, linkLabel:'Get App', hasVersion:true, hasSize:true, bodyLabel:'About'},
+  apk:{label:'APK Apps', singular:'APK', icon:'📦', categories:['Editing','AI','Education','Productivity','Utility','Entertainment'], hasLink:true, linkLabel:'Download APK', hasVersion:true, hasSize:true, bodyLabel:'About'},
+  tips:{label:'AI Tips', singular:'Tip', icon:'💡', categories:['Prompting','Workflow','Tools','Safety','General'], bodyLabel:'Tip Content'}
+};
+const TYPE_ORDER = ['prompts','gpt','tools','apps','apk','tips'];
+
+const SUBJECTS = ['Math','Physics','Chemistry','Biology','English','Hindi','Social Science','General'];
+
+const SEED = {
+  prompts:[{id:uid(),title:'Golden Hour Portrait',category:'Portrait',description:'Cinematic warm-light portrait prompt.',body:'A close-up cinematic portrait, golden hour sunlight, soft rim light, shallow depth of field, 85mm lens, film grain, warm color grade, ultra detailed skin texture',image:'🌇',featured:true,published:true,familySafe:true,createdAt:Date.now()-172800000}],
+  gpt:[{id:uid(),title:'/explain',category:'Explain',description:'Explain any topic simply.',body:'Explain the following topic in plain, simple language as if teaching a curious beginner. Use one short analogy and avoid jargon. Topic: {topic}',image:'💬',featured:true,published:true,familySafe:true,createdAt:Date.now()-259200000}],
+  tools:[{id:uid(),title:'Perplexity',category:'Chat',description:'AI-powered answer engine with citations.',body:'An AI search assistant that answers questions with cited sources in real time.',link:'https://www.perplexity.ai',image:'🔎',featured:true,published:true,familySafe:true,createdAt:Date.now()-345600000}],
+  apps:[{id:uid(),title:'CapCut',category:'Editing',description:'Popular mobile video editor.',body:'Official mobile video editing app with templates, effects and captions.',link:'https://www.capcut.com',version:'12.4.0',size:'180 MB',image:'🎬',featured:true,published:true,familySafe:true,createdAt:Date.now()-86400000}],
+  apk:[],
+  tips:[{id:uid(),title:'Be specific with prompts',category:'Prompting',description:'Specificity beats length.',body:'The more specific detail you give an AI model — subject, style, lighting, mood — the closer the output matches what you imagined.',image:'💡',featured:true,published:true,familySafe:true,createdAt:Date.now()-86400000}]
+};
+
+/* ---------- global state ---------- */
+const S = {
+  page:'home',
+  collections:{}, messages:[], favorites:[],
+  settings:{broadcastChannelUrl:'', instagramUrl:'', adminPassword:'ishank123', geminiApiKey:'', geminiModel:'gemini-flash-latest'},
+  familySafe:true,
+  adminAuthed:false, adminSection:'dashboard',
+  expandedId:null,
+  listFilter:{}, // per type {cat,q}
+  solver:{subject:'Math', mode:'type', image:null, loading:false, answer:'', error:'', status:''}
+};
+
+function init(){
+  TYPE_ORDER.forEach(t=>{
+    let items = dbGet('ixai_c_'+t, null);
+    if(!items){ items = SEED[t]; dbSet('ixai_c_'+t, items); }
+    S.collections[t]=items;
+    S.listFilter[t]={cat:'All', q:''};
+  });
+  S.messages = dbGet('ixai_messages', []);
+  S.favorites = dbGet('ixai_favorites', []);
+  S.familySafe = dbGet('ixai_family_safe', true);
+  S.settings = Object.assign(S.settings, dbGet('ixai_settings', {}));
+  // Automatically move old/retired/invalid model selections to the
+  // current stable alias, which always resolves to whatever Google's
+  // latest stable Flash model is.
+  const validModels = ['gemini-flash-latest','gemini-3.5-flash'];
+  if(!validModels.includes(S.settings.geminiModel)){
+    S.settings.geminiModel = 'gemini-flash-latest';
+    dbSet('ixai_settings', S.settings);
+  }
+  const h = location.hash.replace('#/','') || 'home';
+  S.page = h;
+  render();
+}
+
+/* ---------- helpers ---------- */
+function esc(str){ return (str||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function visibleItems(type){
+  return (S.collections[type]||[]).filter(i=>i.published && (!S.familySafe || i.familySafe!==false));
+}
+function toast(msg){
+  const el = document.getElementById('toast');
+  el.innerHTML = '<div class="toast">'+esc(msg)+'</div>';
+  clearTimeout(window.__toastT);
+  window.__toastT = setTimeout(()=>{ el.innerHTML=''; }, 2200);
+}
+function nav(page){
+  S.page = page; S.expandedId=null;
+  location.hash = '#/'+page;
+  window.scrollTo(0,0);
+  closeMenu();
+  render();
+}
+window.addEventListener('hashchange', ()=>{
+  const h = location.hash.replace('#/','') || 'home';
+  if(h!==S.page){ S.page=h; render(); }
+});
+
+/* ============================================================
+   RENDER: shell (header / bottomnav / side menu)
+   ============================================================ */
+function renderShell(){
+  document.getElementById('header').innerHTML = `
+    <header class="header"><div class="wrap header-inner">
+      <button class="brand" onclick="App.nav('home')">
+        <div class="brand-logo">⚡</div>
+        <div><div class="brand-name">ISHANK X AI</div><div class="brand-sub">Futuristic AI Hub</div></div>
+      </button>
+      <div class="header-actions">
+        <button class="chip-safe ${S.familySafe?'on':'off'}" onclick="App.toggleFamilySafe()">${S.familySafe?'🛡️ SAFE ON':'⚠️ SAFE OFF'}</button>
+        <button class="icon-btn" onclick="App.openMenu()">☰</button>
+      </div>
+    </div></header>`;
+
+  const navItems = [
+    {id:'home', label:'Home', icon:'🏠'},
+    {id:'solver', label:'Solver', icon:'🧠'},
+    {id:'prompts', label:'Prompts', icon:'✨'},
+    {id:'tools', label:'Tools', icon:'🛠'},
+    {id:'apps', label:'Apps', icon:'📱'},
+    {id:'profile', label:'Profile', icon:'👤'}
+  ];
+  document.getElementById('bottomnav').innerHTML = `
+    <nav class="bottomnav"><div class="bottomnav-inner">
+      ${navItems.map(it=>`<button class="navbtn ${S.page===it.id?'active':''}" onclick="App.nav('${it.id}')">
+        <span style="font-size:17px">${it.icon}</span><span>${it.label}</span>
+      </button>`).join('')}
+    </div></nav>`;
+}
+
+function openMenu(){
+  const items = [
+    {id:'gpt', label:'💻 GPT Commands'},
+    {id:'apk', label:'📦 APK Apps'},
+    {id:'tips', label:'💡 AI Tips'},
+    {id:'favorites', label:'❤️ Favorites'},
+    {id:'message', label:'💬 Message Ishank'},
+    {id:'settings', label:'⚙️ AI Settings'},
+    {id:'admin', label:'🔒 Admin Panel'}
+  ];
+  document.getElementById('sidemenu').innerHTML = `
+    <div class="overlay" onclick="if(event.target===this) App.closeMenu()">
+      <div class="sidemenu">
+        <div class="sidemenu-head"><strong>Menu</strong><button class="icon-btn" onclick="App.closeMenu()">✕</button></div>
+        ${items.map(it=>`<button class="menu-link" onclick="App.nav('${it.id}')">${it.label}</button>`).join('')}
+      </div>
+    </div>`;
+}
+function closeMenu(){ document.getElementById('sidemenu').innerHTML=''; }
+
+/* ============================================================
+   HOME
+   ============================================================ */
+function renderHome(){
+  const cats = [
+    {type:'prompts', label:'AI Prompts', icon:'✨'},
+    {type:'gpt', label:'GPT Commands', icon:'💻'},
+    {type:'tools', label:'AI Tools', icon:'🛠'},
+    {type:'apps', label:'Useful Apps', icon:'📱'},
+    {type:'apk', label:'APK Apps', icon:'📦'},
+    {type:'tips', label:'AI Tips', icon:'💡'}
+  ];
+  const allItems = TYPE_ORDER.flatMap(t=>visibleItems(t).map(i=>Object.assign({__type:t}, i)));
+  const trending = allItems.filter(i=>i.featured).slice(0,6);
+  const latest = [...allItems].sort((a,b)=>b.createdAt-a.createdAt).slice(0,4);
+
+  return `<div class="page-enter">
+    <div class="hero">
+      <div class="hero-inner">
+        <h1>Welcome to Ishank X AI 🚀</h1>
+        <p>Your daily hub for AI Prompts, GPT Commands, AI Tools, Useful Apps — plus an AI Doubt Solver for Hindi, English, Math, Physics, Chemistry, Biology &amp; more.</p>
+        <div class="btns">
+          <button class="btn btn-solid" onclick="App.nav('solver')">🧠 SOLVE MY DOUBT</button>
+          <a class="btn btn-ghost" href="${S.settings.broadcastChannelUrl||'#'}" target="_blank" onclick="${S.settings.broadcastChannelUrl?'':'return false;'}">📢 JOIN BROADCAST CHANNEL</a>
+          <button class="btn btn-ghost" onclick="App.nav('message')">💬 MESSAGE ISHANK</button>
+        </div>
+      </div>
+    </div>
+
+    <button class="search-bar" style="width:100%;margin-bottom:22px;text-align:left" onclick="App.nav('search')">
+      <span>🔍</span><span class="muted" style="font-size:13px">Search prompts, commands, apps, tools...</span>
+    </button>
+
+    <div class="grid-2" style="margin-bottom:8px">
+      ${cats.map(c=>`
+        <div class="card pad" style="cursor:pointer" onclick="App.nav('${c.type}')">
+          <div style="font-size:22px;margin-bottom:8px">${c.icon}</div>
+          <div style="font-size:13px;font-weight:700">${c.label}</div>
+          <div class="tiny mutedDim" style="margin-top:2px">${visibleItems(c.type).length} available</div>
+        </div>`).join('')}
+    </div>
+
+    <div class="section-title"><span>🔥</span><h2>Trending</h2></div>
+    <div class="hscroll" style="margin-bottom:8px">
+      ${trending.length? trending.map(item=>`
+        <div style="min-width:150px;cursor:pointer" onclick="App.nav('${item.__type}')">
+          <div class="card pad">
+            <div style="font-size:20px;margin-bottom:8px">${item.image||'✨'}</div>
+            <div style="font-size:12px;font-weight:700">${esc(item.title)}</div>
+            <div class="tiny mutedDim" style="margin-top:4px">${TYPES[item.__type].label}</div>
+          </div>
+        </div>`).join('') : `<p class="muted tiny">Nothing featured yet.</p>`}
+    </div>
+
+    <div class="section-title"><span>🆕</span><h2>Latest Updates</h2></div>
+    <div class="flex-col">
+      ${latest.length? latest.map(item=>`
+        <div class="card pad" style="cursor:pointer" onclick="App.nav('${item.__type}')">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="font-size:17px">${item.image||'✨'}</span>
+            <div style="min-width:0">
+              <div style="font-size:13px;font-weight:700">${esc(item.title)}</div>
+              <div class="tiny mutedDim">${TYPES[item.__type].label} · ${esc(item.category)}</div>
+            </div>
+          </div>
+        </div>`).join('') : `<p class="muted tiny">No content published yet — check back soon.</p>`}
+    </div>
+  </div>`;
+}
+
+/* ============================================================
+   AI DOUBT SOLVER
+   ============================================================ */
+function renderSolver(){
+  const st = S.solver;
+  return `<div class="page-enter">
+    <h1 style="font-size:17px;font-weight:700;margin-bottom:4px">🧠 AI Doubt Solver</h1>
+    <p class="muted tiny" style="margin-bottom:16px">Hindi, English, Math, Physics, Chemistry, Biology aur Social Science — type karo ya question ki photo upload karo, AI step-by-step solve karega.</p>
+
+    ${!hasWorkingAiAccess() ? `
+    <div class="card pad warnbox" style="margin-bottom:16px">
+      <p class="tiny" style="color:var(--warn);font-weight:600;margin-bottom:4px">⚠️ Gemini API key not set</p>
+      <p class="tiny mutedDim">Add your free Google AI Studio API key to start solving doubts.</p>
+      <button class="btn btn-ghost btn-sm btn-auto" style="margin-top:10px" onclick="App.nav('settings')">Add API Key</button>
+    </div>` : ''}
+
+    <div class="card pad-lg">
+      <div class="field"><label>Subject</label>
+        <div class="subject-grid">
+          ${SUBJECTS.map(s=>`<button class="subject-chip ${st.subject===s?'active':''}" onclick="App.setSubject('${s}')">${s}</button>`).join('')}
+        </div>
+      </div>
+
+      <div class="tab-row">
+        <button class="tab-btn ${st.mode!=='image'?'active':''}" onclick="App.setSolverMode('type')">✍️ Type Question</button>
+        <button class="tab-btn ${st.mode==='image'?'active':''}" onclick="App.setSolverMode('image')">📷 Upload Photo</button>
+      </div>
+
+      ${st.mode==='image' ? `
+      <div class="field">
+        <label>Question Photo</label>
+        ${st.image ? `
+          <img src="${st.image}" class="imgpreview" />
+          <button class="btn btn-ghost btn-sm btn-auto" style="margin-top:8px" onclick="App.clearSolverImage()">🗑️ Remove &amp; choose another</button>
+        ` : `
+          <div class="dropzone">
+            <input type="file" accept="image/*" capture="environment" onchange="App.onSolverImage(event)" />
+            <div class="dz-icon">📷</div>
+            <div class="dz-title">Tap to upload or take a photo</div>
+            <div class="dz-sub">Clear photo of the question works best</div>
+          </div>`}
+      </div>
+      <div class="field"><label>Add a note (optional)</label>
+        <textarea id="solver-q" class="textarea" placeholder="e.g. Solve only Q2, or explain in Hindi"></textarea>
+      </div>
+      ` : `
+      <div class="field">
+        <label>Your Question</label>
+        <textarea id="solver-q" class="textarea" placeholder="Type your question here... e.g. Solve: 2x + 5 = 15, or explain photosynthesis"></textarea>
+      </div>`}
+
+      <button class="btn btn-solid" onclick="App.solve()" ${st.loading?'disabled':''}>
+        ${st.loading? '<span class="spinner"></span> Solving...' : '🚀 Solve My Doubt'}
+      </button>
+    </div>
+
+    ${st.status? `<div class="card pad" style="margin-top:16px;border-color:rgba(91,141,239,.3)"><p class="tiny" style="color:var(--accent)">${esc(st.status)}</p></div>` : ''}
+    ${st.error? `<div class="card pad" style="margin-top:16px;border-color:rgba(241,89,92,.3)"><p class="tiny" style="color:var(--danger)">${esc(st.error)}</p></div>` : ''}
+
+    ${st.answer? `
+    <div class="card pad-lg" style="margin-top:16px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <span class="tiny" style="font-weight:700;color:var(--accent)">✅ SOLUTION</span>
+        <button class="iconbox" onclick="App.copySolverAnswer()" title="Copy">📋</button>
+      </div>
+      <div class="answer-box" style="white-space:pre-wrap;line-height:1.7">${esc(cleanAIAnswer(st.answer))}</div>
+    </div>` : ''}
+
+    <p class="tiny mutedDim center" style="margin-top:18px">${GEMINI_PROXY_URL ? 'Powered by Google Gemini · answers are handled through a secure server, no API key ever leaves this app.' : "Powered by Google Gemini · your API key stays on this device and is sent only to Google's API."}</p>
+  </div>`;
+}
+
+function setSolverMode(m){ S.solver.mode=m; render(); }
+function setSubject(s){ S.solver.subject=s; render(); }
+function onSolverImage(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{ S.solver.image = reader.result; render(); };
+  reader.readAsDataURL(file);
+}
+function clearSolverImage(){ S.solver.image=null; render(); }
+function copySolverAnswer(){
+  navigator.clipboard.writeText(cleanAIAnswer(S.solver.answer)).then(()=>toast('Answer copied ✓')).catch(()=>toast('Could not copy'));
+}
+
+async function sleep(ms){
+  return new Promise(resolve=>setTimeout(resolve, ms));
+}
+
+function getGeminiFallbackModels(preferred){
+  // 'gemini-flash-latest' is Google's official alias that always points to
+  // the current stable Flash model, so it never goes stale. Try the
+  // selected model first, then move through a short list of known-good
+  // fallbacks only (a long list of guessed model names was the main
+  // reason answers used to take a long time — each wrong name has to
+  // fail before the next one is tried).
+  const models = [
+    preferred,
+    'gemini-flash-latest',
+    'gemini-3.5-flash'
+  ].filter(Boolean);
+  return [...new Set(models)];
+}
+
+function isRetryableGeminiError(status, message){
+  const msg = String(message || '').toLowerCase();
+  if(status === 0) return true; // network/fetch failure
+  if(status === 429 || (status >= 500 && status <= 504)) return true;
+  if(status === 404) return true; // model may not be available for this API key/project
+  if(msg.includes('high demand') || msg.includes('temporarily unavailable') ||
+     msg.includes('resource_exhausted') || msg.includes('overloaded')) return true;
+  if(msg.includes('model') && (msg.includes('not found') || msg.includes('not available') || msg.includes('unsupported'))) return true;
+  return false;
+}
+
+function friendlyGeminiError(status, message){
+  const msg = String(message || '').trim();
+  if(status === 401 || status === 403){
+    return 'API key rejected. Check that your Gemini API key is correct and has Gemini API access.' + (msg ? (' (Details: ' + msg + ')') : '');
+  }
+  if(status === 429){
+    return 'Gemini rate limit reached. The app retried automatically, but Google is still limiting requests.' + (msg ? (' (Details: ' + msg + ')') : '');
+  }
+  if(status >= 500 && status <= 504){
+    return 'Gemini is temporarily busy. The app tried multiple models automatically, but all were unavailable right now.' + (msg ? (' (Details: ' + msg + ')') : '');
+  }
+  if(status === 404){
+    return 'The selected Gemini model is not available for this API key/project.' + (msg ? (' (Details: ' + msg + ')') : '');
+  }
+  if(status === 0){
+    return 'Could not reach Gemini. Check your internet connection, API key, and browser network access.' + (msg ? (' (Details: ' + msg + ')') : '');
+  }
+  return msg || ('Request failed (' + status + ').');
+}
+
+async function callGeminiModel(model, parts, apiKey){
+  // If a proxy Worker is configured, call it instead of Google directly —
+  // the browser sends no API key at all in this path.
+  const usingProxy = !!GEMINI_PROXY_URL;
+  const url = usingProxy
+    ? GEMINI_PROXY_URL
+    : ('https://generativelanguage.googleapis.com/v1beta/models/' +
+       encodeURIComponent(model) + ':generateContent?key=' + encodeURIComponent(apiKey));
+
+  // IMPORTANT: Abort slow/hung browser requests. This prevents the UI
+  // from staying on "Solving..." forever.
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 12000);
+
+  try{
+    const res = await fetch(url, {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'Accept':'application/json'
+      },
+      body: JSON.stringify({
+        model,
+        contents:[{parts}],
+        generationConfig:{
+          temperature:0.2,
+          maxOutputTokens:768
+        }
+      }),
+      signal: controller.signal
+    });
+
+    let data = null;
+    try{ data = await res.json(); }catch(e){}
+
+    if(!res.ok){
+      const message = data && data.error && data.error.message
+        ? data.error.message
+        : ('Request failed (' + res.status + ')');
+      const err = new Error(message);
+      err.status = res.status;
+      err.geminiMessage = message;
+      throw err;
+    }
+
+    const answerText = data && data.candidates && data.candidates[0] &&
+      data.candidates[0].content && data.candidates[0].content.parts
+      ? data.candidates[0].content.parts.map(p=>p.text||'').join('\n') : '';
+
+    if(!answerText){
+      const blockReason = data && data.candidates && data.candidates[0] &&
+        data.candidates[0].finishReason
+        ? 'Finish reason: ' + data.candidates[0].finishReason
+        : 'No answer returned by Gemini.';
+      throw Object.assign(new Error(blockReason), {status:200});
+    }
+
+    return answerText;
+  }catch(err){
+    if(err && err.name === 'AbortError'){
+      const timeoutErr = new Error('Gemini request timed out after 12 seconds.');
+      timeoutErr.status = 0;
+      timeoutErr.geminiMessage = timeoutErr.message;
+      timeoutErr.timeout = true;
+      throw timeoutErr;
+    }
+    throw err;
+  }finally{
+    clearTimeout(timeoutId);
+  }
+}
+
+
+function cleanAIAnswer(text){
+  let s = String(text || '');
+
+  // Convert/remove common math formatting so the UI stays clean.
+  s = s.replace(/\$\$[\s\S]*?\$\$/g, m => m.slice(2, -2));
+  s = s.replace(/\$+/g, '');
+  s = s.replace(/\\\(([\s\S]*?)\\\)/g, '$1');
+  s = s.replace(/\\\[([\s\S]*?)\\\]/g, '$1');
+  s = s.replace(/\\frac\{([^{}]+)\}\{([^{}]+)\}/g, '$1/$2');
+  s = s.replace(/\\sqrt\{([^{}]+)\}/g, '√$1');
+  s = s.replace(/\\text\{([^{}]*)\}/g, '$1');
+  s = s.replace(/\\left|\\right/g, '');
+  s = s.replace(/\\times/g, '×').replace(/\\div/g, '÷');
+  s = s.replace(/\\cdot/g, '·').replace(/\\leq/g, '≤').replace(/\\geq/g, '≥');
+  s = s.replace(/\\neq/g, '≠').replace(/\\pm/g, '±').replace(/\\%/g, '%');
+  s = s.replace(/\\([a-zA-Z]+)/g, '$1');
+
+  // Remove Markdown decoration.
+  s = s.replace(/```[\w-]*\n?/g, '').replace(/```/g, '');
+  s = s.replace(/^\s{0,3}#{1,6}\s*/gm, '');
+  s = s.replace(/\*\*(.*?)\*\*/g, '$1');
+  s = s.replace(/__(.*?)__/g, '$1');
+  s = s.replace(/(?<!\*)\*([^*\n]+)\*(?!\*)/g, '$1');
+  s = s.replace(/(?<!_)_([^_\n]+)_(?!_)/g, '$1');
+
+  // Remove unnecessary "solution/final answer" boilerplate for cleaner display.
+  s = s.replace(/^\s*(solution|final answer|answer)\s*:?\s*$/gim, '');
+
+  // Clean whitespace.
+  s = s.replace(/[ \t]+\n/g, '\n');
+  s = s.replace(/\n{3,}/g, '\n\n');
+  s = s.trim();
+
+  return s;
+}
+
+// Instant answers for very simple arithmetic — no API round-trip needed.
+function tryInstantMath(q){
+  const cleaned = String(q || '')
+    .replace(/[=?।.!]+$/g, '')
+    .trim();
+
+  if(!cleaned || cleaned.length > 80) return null;
+
+  // Only allow plain numeric arithmetic expressions.
+  if(!/^[0-9+\-*/().%\s×÷]+$/.test(cleaned)) return null;
+
+  const expr = cleaned.replace(/×/g, '*').replace(/÷/g, '/');
+  if(!/[+\-*/%]/.test(expr)) return null;
+
+  try{
+    const result = Function('"use strict"; return (' + expr + ')')();
+    if(typeof result !== 'number' || !Number.isFinite(result)) return null;
+    return String(Number.isInteger(result) ? result : Number(result.toFixed(10)));
+  }catch(e){
+    return null;
+  }
+}
+
+async function solve(){
+  const qEl = document.getElementById('solver-q');
+  const q = qEl ? qEl.value.trim() : '';
+
+  if(!q && !S.solver.image){
+    toast('Type a question or attach a photo first');
+    return;
+  }
+
+  // Instant path for simple Math expressions such as 2+2 or 5*6.
+  if(S.solver.subject === 'Math' && !S.solver.image){
+    const instant = tryInstantMath(q);
+    if(instant !== null){
+      S.solver.loading = false;
+      S.solver.error = '';
+      S.solver.status = '';
+      S.solver.answer = instant;
+      render();
+      return;
+    }
+  }
+
+  const activeKey = getActiveApiKey();
+  if(!hasWorkingAiAccess()){
+    toast('Add your Gemini API key in Settings first');
+    nav('settings');
+    return;
+  }
+
+  S.solver.loading = true;
+  S.solver.error = '';
+  S.solver.answer = '';
+  S.solver.status = 'Connecting...';
+  render();
+
+  const subject = S.solver.subject;
+  const systemPrompt =
+    "You are ISHANK X AI, a friendly tutor for Indian students. " +
+    "Answer the student's " + subject + " question accurately and naturally. " +
+    "Use the same language/style as the student (Hindi, English or Hinglish). " +
+    "IMPORTANT: Use plain text only. Never use LaTeX, dollar signs ($), Markdown, **bold**, headings, code fences, or decorative formatting. " +
+    "For simple questions, give only the short direct answer. " +
+    "Do not give step-by-step explanations unless they are actually useful or the student asks for them. " +
+    "Keep responses concise. For calculations, show only the necessary working and final result.";
+
+  const parts = [{
+    text: systemPrompt + "\n\nStudent's question:\n" + (q || "(see attached image)")
+  }];
+
+  if(S.solver.image){
+    const base64 = S.solver.image.split(',')[1];
+    const mime = S.solver.image.substring(5, S.solver.image.indexOf(';'));
+    parts.push({ inline_data: { mime_type: mime, data: base64 } });
+  }
+
+  const models = getGeminiFallbackModels(S.settings.geminiModel || 'gemini-flash-latest');
+  const maxRetriesPerModel = 0; // Move to fallback immediately on temporary failure.
+  let lastError = null;
+
+  try{
+    outer:
+    for(let mi=0; mi<models.length; mi++){
+      const model = models[mi];
+
+      try{
+        const text = await callGeminiModel(model, parts, activeKey);
+        S.solver.answer = cleanAIAnswer(text);
+        S.solver.status = '';
+        S.solver.error = '';
+        break outer;
+      }catch(err){
+        lastError = err;
+        const status = Number(err && err.status) || 0;
+        const message = err && (err.geminiMessage || err.message) || '';
+
+        if(status === 401 || status === 403){
+          S.solver.error = friendlyGeminiError(status, message);
+          break outer;
+        }
+
+        const retryable = isRetryableGeminiError(status, message);
+
+        if(retryable && mi < models.length - 1){
+          S.solver.status = '';
+          continue;
+        }
+
+        S.solver.error = friendlyGeminiError(status, message);
+        break outer;
+      }
+    }
+
+    if(!S.solver.answer && !S.solver.error){
+      const status = Number(lastError && lastError.status) || 0;
+      const message = lastError && (lastError.geminiMessage || lastError.message) || '';
+      S.solver.error = friendlyGeminiError(status, message);
+    }
+  }catch(err){
+    S.solver.error = friendlyGeminiError(
+      Number(err && err.status) || 0,
+      err && (err.geminiMessage || err.message) || 'Unexpected Gemini error.'
+    );
+  }
+
+  S.solver.status = '';
+  S.solver.loading = false;
+  render();
+}
+
+/* ============================================================
+   LIST PAGES (prompts / gpt / tools / apps / apk / tips)
+   ============================================================ */
+function contentCardHTML(item, type){
+  const cfg = TYPES[type];
+  const fav = S.favorites.some(f=>f.type===type && f.id===item.id);
+  const expanded = S.expandedId === (type+item.id);
+  return `<div class="card pad content-card">
+    <div class="row">
+      <div class="content-icon">${item.image||'✨'}</div>
+      <div style="min-width:0;flex:1">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <div class="content-title">${esc(item.title)}</div>
+          ${item.featured? '<span class="badge-featured">FEATURED</span>' : ''}
+        </div>
+        <div class="content-meta">${esc(item.category)}${cfg.hasVersion&&item.version?' · v'+esc(item.version):''}${cfg.hasSize&&item.size?' · '+esc(item.size):''}</div>
+        <div class="content-desc">${esc(item.description)}</div>
+        ${expanded && item.body? `<div class="content-body">${esc(item.body)}</div>` : ''}
+        <div class="card-actions">
+          ${item.body? `<button class="link-expand" onclick="App.toggleExpand('${type}','${item.id}')">${expanded?'Hide':cfg.bodyLabel} ›</button>` : ''}
+          <div class="spacer"></div>
+          ${cfg.hasCopy? `<button class="iconbox" onclick="App.copyBody('${type}','${item.id}')" title="Copy">📋</button>` : ''}
+          <button class="iconbox" onclick="App.shareItem('${type}','${item.id}')" title="Share">📤</button>
+          <button class="iconbox ${fav?'fav':''}" onclick="App.toggleFav('${type}','${item.id}')" title="Favorite">${fav?'❤️':'🤍'}</button>
+          ${cfg.hasLink && item.link? `<a class="iconbox" href="${item.link}" target="_blank" title="${cfg.linkLabel}">🔗</a>` : ''}
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+function toggleExpand(type,id){ const key=type+id; S.expandedId = S.expandedId===key?null:key; render(); }
+function copyBody(type,id){
+  const item = (S.collections[type]||[]).find(i=>i.id===id);
+  if(!item) return;
+  navigator.clipboard.writeText(item.body||'').then(()=>toast('Prompt copied successfully ✓')).catch(()=>toast('Could not copy'));
+}
+function shareItem(type,id){
+  const item = (S.collections[type]||[]).find(i=>i.id===id);
+  if(!item) return;
+  const text = item.title + ' — ' + item.description;
+  if(navigator.share){ navigator.share({title:item.title, text}).catch(()=>{}); }
+  else { navigator.clipboard.writeText(text).then(()=>toast('Copied to share ✓')); }
+}
+function toggleFav(type,id){
+  const exists = S.favorites.some(f=>f.type===type && f.id===id);
+  S.favorites = exists ? S.favorites.filter(f=>!(f.type===type && f.id===id)) : S.favorites.concat([{type,id}]);
+  dbSet('ixai_favorites', S.favorites);
+  render();
+}
+
+function renderList(type){
+  const cfg = TYPES[type];
+  const filter = S.listFilter[type];
+  const items = visibleItems(type).filter(i=>
+    (filter.cat==='All'||i.category===filter.cat) &&
+    (!filter.q || i.title.toLowerCase().includes(filter.q.toLowerCase()) || i.description.toLowerCase().includes(filter.q.toLowerCase()))
+  );
+  return `<div class="page-enter">
+    <h1 style="font-size:18px;font-weight:800;margin-bottom:14px">${cfg.icon} ${cfg.label}</h1>
+    <div class="search-bar" style="margin-bottom:12px">
+      <span>🔍</span><input id="list-q" placeholder="Search ${cfg.label.toLowerCase()}..." value="${esc(filter.q)}" oninput="App.setListQuery('${type}', this.value)" />
+    </div>
+    <div class="pill-row" style="margin-bottom:16px">
+      <button class="pill sm ${filter.cat==='All'?'active':''}" onclick="App.setListCat('${type}','All')">All</button>
+      ${cfg.categories.map(c=>`<button class="pill sm ${filter.cat===c?'active':''}" onclick="App.setListCat('${type}','${c}')">${c}</button>`).join('')}
+    </div>
+    <div id="list-results" class="flex-col">${listResultsHTML(type, items)}</div>
+  </div>`;
+}
+function listResultsHTML(type, items){
+  if(!items.length) return `<div class="empty"><div class="em">🛰️</div><p>No ${TYPES[type].label.toLowerCase()} published yet.</p></div>`;
+  return items.map(item=>contentCardHTML(item,type)).join('');
+}
+function setListCat(type,cat){ S.listFilter[type].cat=cat; render(); }
+function setListQuery(type,q){
+  S.listFilter[type].q=q;
+  const items = visibleItems(type).filter(i=>
+    (S.listFilter[type].cat==='All'||i.category===S.listFilter[type].cat) &&
+    (!q || i.title.toLowerCase().includes(q.toLowerCase()) || i.description.toLowerCase().includes(q.toLowerCase()))
+  );
+  document.getElementById('list-results').innerHTML = listResultsHTML(type, items);
+}
+
+/* ---------- global search ---------- */
+function renderSearch(){
+  return `<div class="page-enter">
+    <h1 style="font-size:18px;font-weight:800;margin-bottom:14px">Search</h1>
+    <div class="search-bar" style="margin-bottom:12px">
+      <span>🔍</span><input id="global-q" autofocus placeholder="Search everything..." oninput="App.runGlobalSearch(this.value)" />
+    </div>
+    <div id="global-results" class="flex-col">${globalSearchHTML('')}</div>
+  </div>`;
+}
+function globalSearchHTML(q){
+  q = q.trim().toLowerCase();
+  if(!q) return `<div class="empty"><div class="em">🔎</div><p>Start typing to search prompts, tools, apps and more.</p></div>`;
+  const results = TYPE_ORDER.flatMap(t=>visibleItems(t).filter(i=>
+    i.title.toLowerCase().includes(q) || i.description.toLowerCase().includes(q) || i.category.toLowerCase().includes(q)
+  ).map(i=>Object.assign({__type:t}, i)));
+  if(!results.length) return `<div class="empty"><div class="em">🛰️</div><p>No results for "${esc(q)}".</p></div>`;
+  return results.map(item=>contentCardHTML(item,item.__type)).join('');
+}
+function runGlobalSearch(q){ document.getElementById('global-results').innerHTML = globalSearchHTML(q); }
+
+/* ---------- favorites ---------- */
+function renderFavorites(){
+  const items = S.favorites.map(f=>{
+    const item = (S.collections[f.type]||[]).find(i=>i.id===f.id);
+    return item ? Object.assign({__type:f.type}, item) : null;
+  }).filter(Boolean);
+  return `<div class="page-enter">
+    <h1 style="font-size:18px;font-weight:800;margin-bottom:14px">❤️ Favorites</h1>
+    ${items.length? `<div class="flex-col">${items.map(item=>contentCardHTML(item,item.__type)).join('')}</div>`
+      : `<div class="empty"><div class="em">🤍</div><p>Nothing favorited yet. Tap the heart on any card to save it here.</p></div>`}
+  </div>`;
+}
+
+/* ---------- message ishank ---------- */
+function renderMessage(){
+  return `<div class="page-enter">
+    <h1 style="font-size:18px;font-weight:800;margin-bottom:4px">💬 Message Ishank</h1>
+    <p class="muted tiny" style="margin-bottom:16px">Questions, feedback or requests — send them straight through.</p>
+    <div class="card pad-lg">
+      <div class="field"><label>Name</label><input id="msg-name" class="input" placeholder="Your name" /></div>
+      <div class="field"><label>Email (optional)</label><input id="msg-email" class="input" placeholder="you@example.com" /></div>
+      <div class="field"><label>Message</label><textarea id="msg-body" class="textarea" placeholder="Type your message..."></textarea></div>
+      <button class="btn btn-solid" onclick="App.sendMessage()">📨 SEND MESSAGE</button>
+      <div id="msg-status"></div>
+    </div>
+  </div>`;
+}
+function sendMessage(){
+  const name = document.getElementById('msg-name').value.trim();
+  const email = document.getElementById('msg-email').value.trim();
+  const body = document.getElementById('msg-body').value.trim();
+  if(!name || !body){ toast('Please fill in your name and message'); return; }
+  S.messages = [{id:uid(), name, email, message:body, read:false, createdAt:Date.now()}].concat(S.messages);
+  dbSet('ixai_messages', S.messages);
+  document.getElementById('msg-status').innerHTML = '<p class="tiny center" style="color:var(--ok);margin-top:10px">Your message has been sent successfully 🚀</p>';
+  document.getElementById('msg-name').value=''; document.getElementById('msg-email').value=''; document.getElementById('msg-body').value='';
+}
+
+/* ---------- profile ---------- */
+function renderProfile(){
+  return `<div class="page-enter">
+    <div class="center" style="margin:20px 0">
+      <div style="width:64px;height:64px;border-radius:18px;background:var(--gradient);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;box-shadow:0 0 24px rgba(91,124,250,.5);font-size:28px">⚡</div>
+      <h1 style="font-size:19px;font-weight:800">ISHANK X AI</h1>
+      <p class="tiny mutedDim">Creator: Ishank</p>
+    </div>
+    <div class="grid-2" style="margin-bottom:20px">
+      ${['prompts','gpt','tools','apps'].map(t=>`
+        <div class="card pad center" style="cursor:pointer" onclick="App.nav('${t}')">
+          <div style="font-size:19px">${TYPES[t].icon}</div>
+          <div class="tiny" style="font-weight:700;margin-top:6px">${TYPES[t].label}</div>
+        </div>`).join('')}
+    </div>
+    <div class="flex-col">
+      <a class="btn btn-ghost" href="${S.settings.instagramUrl||'#'}" target="_blank" onclick="${S.settings.instagramUrl?'':'return false;'}">📷 Instagram</a>
+      <a class="btn btn-ghost" href="${S.settings.broadcastChannelUrl||'#'}" target="_blank" onclick="${S.settings.broadcastChannelUrl?'':'return false;'}">📢 Broadcast Channel</a>
+      <button class="btn btn-ghost" onclick="App.nav('message')">💬 Message Ishank</button>
+      <button class="btn btn-ghost" onclick="App.nav('settings')">⚙️ AI Settings</button>
+      <button class="btn btn-ghost" onclick="App.nav('admin')">🔒 Admin Panel</button>
+    </div>
+  </div>`;
+}
+
+/* ---------- AI settings (Gemini key, personal) ---------- */
+function renderSettingsPage(){
+  if(GEMINI_PROXY_URL){
+    // Proxy is active: no key field to show at all — nothing for a
+    // visitor to paste, nothing that can be misconfigured by them.
+    return `<div class="page-enter">
+      <h1 style="font-size:18px;font-weight:800;margin-bottom:14px">⚙️ AI Settings</h1>
+      <div class="card pad-lg">
+        <p class="tiny" style="line-height:1.6">✅ <strong>AI Doubt Solver is ready to use.</strong> Answers are handled through a secure server set up by the app owner — there is nothing to configure here.</p>
+      </div>
+    </div>`;
+  }
+  return `<div class="page-enter">
+    <h1 style="font-size:18px;font-weight:800;margin-bottom:14px">⚙️ AI Settings</h1>
+    <div class="card pad-lg">
+      <div class="field"><label>Gemini API Key</label>
+        <input id="set-key" class="input" type="password" value="${esc(S.settings.geminiApiKey)}" placeholder="Paste your free Google AI Studio key" />
+      </div>
+      <div class="field"><label>Primary Model (automatic fallback enabled)</label>
+        <select id="set-model" class="select">
+          ${['gemini-flash-latest','gemini-3.5-flash'].map(m=>`<option value="${m}" ${S.settings.geminiModel===m?'selected':''}>${m}</option>`).join('')}
+        </select>
+      </div>
+      <button class="btn btn-solid" onclick="App.saveAiSettings()">Save</button>
+    </div>
+    <div class="card pad" style="margin-top:14px">
+      <p class="tiny mutedDim" style="line-height:1.6">
+        ${DEFAULT_GEMINI_API_KEY ? "This app already works without adding a key — it uses a shared key set up by the app owner. Add your own key here only if you want to use your personal Gemini quota instead." : "Auto Retry + Model Fallback is ON. If the selected model is busy or temporarily unavailable, ISHANK X AI retries automatically and then switches to another current Gemini Flash model. Don't have a key? Go to <strong>Google AI Studio</strong> (aistudio.google.com), sign in, click \"Get API key\" and create a free key. The key is stored only on this device and sent directly to Google's API."}
+      </p>
+    </div>
+  </div>`;
+}
+function saveAiSettings(){
+  S.settings.geminiApiKey = document.getElementById('set-key').value.trim();
+  S.settings.geminiModel = document.getElementById('set-model').value || 'gemini-flash-latest';
+  dbSet('ixai_settings', S.settings);
+  toast('AI settings saved ✓');
+  nav('solver');
+}
+
+/* ============================================================
+   ADMIN
+   ============================================================ */
+function renderAdminGate(){
+  return `<div class="page-enter" style="margin-top:30px">
+    <div class="center" style="margin-bottom:20px">
+      <div style="width:52px;height:52px;border-radius:16px;background:rgba(91,124,250,.12);border:1px solid var(--borderStrong);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:22px">🔒</div>
+      <h1 style="font-size:17px;font-weight:800">Admin Login</h1>
+      <p class="tiny mutedDim">Authorized access only</p>
+    </div>
+    <div class="card pad-lg">
+      <div class="field"><label>Admin Password</label><input id="admin-pw" type="password" class="input" placeholder="Enter password" /></div>
+      <div id="admin-err"></div>
+      <button class="btn btn-solid" onclick="App.adminLogin()">Log In</button>
+    </div>
+    <p class="tiny mutedDim center" style="margin-top:16px">Default password: <strong>ishank123</strong>. Change it from Settings after logging in.</p>
+  </div>`;
+}
+function adminLogin(){
+  const pw = document.getElementById('admin-pw').value;
+  if(pw === S.settings.adminPassword){ S.adminAuthed=true; S.adminSection='dashboard'; nav('admin'); }
+  else document.getElementById('admin-err').innerHTML = '<p class="tiny" style="color:var(--danger);margin-bottom:8px">Incorrect password.</p>';
+}
+function adminLogout(){ S.adminAuthed=false; nav('home'); }
+
+const ADMIN_SECTIONS = [
+  {id:'dashboard', label:'Dashboard'}, {id:'prompts', label:'AI Prompts'}, {id:'gpt', label:'GPT Templates'},
+  {id:'tools', label:'AI Tools'}, {id:'apps', label:'Useful Apps'}, {id:'apk', label:'APK Apps'},
+  {id:'tips', label:'AI Tips'}, {id:'messages', label:'Messages'}, {id:'settings', label:'Settings'}
+];
+
+function renderAdminDashboard(){
+  return `<div class="page-enter">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <h1 style="font-size:17px;font-weight:800">Admin Dashboard</h1>
+      <button onclick="App.adminLogout()" class="tiny" style="background:none;border:none;color:var(--danger);font-weight:700">Exit</button>
+    </div>
+    <div class="pill-row" style="margin-bottom:16px">
+      ${ADMIN_SECTIONS.map(s=>`<button class="pill sm ${S.adminSection===s.id?'active':''}" onclick="App.setAdminSection('${s.id}')">${s.label}</button>`).join('')}
+    </div>
+    <div id="admin-body">${renderAdminSection()}</div>
+  </div>`;
+}
+function setAdminSection(id){ S.adminSection=id; S.adminEditing=null; render(); }
+
+function renderAdminSection(){
+  const sec = S.adminSection;
+  if(sec==='dashboard') return adminStatsHTML();
+  if(TYPE_ORDER.includes(sec)) return adminEditorHTML(sec);
+  if(sec==='messages') return adminMessagesHTML();
+  if(sec==='settings') return adminSettingsHTML();
+  return '';
+}
+
+function adminStatsHTML(){
+  const unread = S.messages.filter(m=>!m.read).length;
+  const stats = TYPE_ORDER.map(t=>({label:TYPES[t].label, value:S.collections[t].length, sub:S.collections[t].filter(i=>i.published).length+' published'}))
+    .concat([{label:'Messages', value:S.messages.length, sub:unread+' unread'}]);
+  const recent = TYPE_ORDER.flatMap(t=>S.collections[t].map(i=>Object.assign({__type:t}, i))).sort((a,b)=>b.createdAt-a.createdAt).slice(0,5);
+  return `
+    <div class="grid-2" style="margin-bottom:22px">
+      ${stats.map(s=>`<div class="card pad"><div class="stat-num">${s.value}</div><div class="stat-label">${s.label}</div><div class="stat-sub">${s.sub}</div></div>`).join('')}
+    </div>
+    <div class="section-title" style="margin-top:0"><span>🕓</span><h2>Recent Uploads</h2></div>
+    <div class="flex-col">
+      ${recent.map(item=>`<div class="card pad">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="min-width:0"><div style="font-size:13px;font-weight:700">${esc(item.title)}</div><div class="tiny mutedDim">${TYPES[item.__type].label}</div></div>
+          <span class="tiny" style="font-weight:800;padding:2px 8px;border-radius:999px;background:${item.published?'rgba(60,224,166,.14)':'rgba(255,255,255,.06)'};color:${item.published?'var(--ok)':'var(--mutedDim)'}">${item.published?'PUBLISHED':'DRAFT'}</span>
+        </div></div>`).join('') || '<p class="tiny muted">No uploads yet.</p>'}
+    </div>`;
+}
+
+function emptyItemFor(type){
+  const base = {id:uid(), title:'', category:TYPES[type].categories[0], description:'', body:'', image:'✨', featured:false, published:false, familySafe:true, createdAt:Date.now()};
+  if(TYPES[type].hasLink) base.link='';
+  if(TYPES[type].hasVersion) base.version='';
+  if(TYPES[type].hasSize) base.size='';
+  if(type==='apk') base.source='';
+  return base;
+}
+
+function adminEditorHTML(type){
+  const cfg = TYPES[type];
+  if(S.adminEditing && S.adminEditing.__type===type) return itemFormHTML(type, S.adminEditing);
+
+  S.adminListFilter = S.adminListFilter || {};
+  const f = S.adminListFilter[type] || {status:'all', q:''};
+  S.adminListFilter[type] = f;
+
+  const items = (S.collections[type]||[]).filter(i=>{
+    if(f.status==='published' && !i.published) return false;
+    if(f.status==='draft' && i.published) return false;
+    if(f.status==='featured' && !i.featured) return false;
+    if(f.q && !i.title.toLowerCase().includes(f.q.toLowerCase())) return false;
+    return true;
+  });
+
+  return `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <h2 style="font-size:14px;font-weight:700">${cfg.label}</h2>
+      <button class="btn btn-solid btn-auto btn-sm" onclick="App.openItemForm('${type}')">+ ${type==='apk'?'UPLOAD APK':'ADD '+cfg.singular.toUpperCase()}</button>
+    </div>
+    <div class="search-bar" style="margin-bottom:10px">
+      <span>🔍</span><input value="${esc(f.q)}" placeholder="Search..." oninput="App.setAdminQuery('${type}', this.value)" />
+    </div>
+    <div class="pill-row" style="margin-bottom:14px">
+      ${['all','published','draft','featured'].map(s=>`<button class="pill sm ${f.status===s?'active':''}" onclick="App.setAdminStatus('${type}','${s}')">${s[0].toUpperCase()+s.slice(1)}</button>`).join('')}
+    </div>
+    <div id="admin-list" class="flex-col">${adminListHTML(type, items)}</div>
+  `;
+}
+function adminListHTML(type, items){
+  if(!items.length) return `<div class="empty"><div class="em">📭</div><p>No items yet. Tap "Add" to create one.</p></div>`;
+  return items.map(item=>`
+    <div class="card pad">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+        <div style="min-width:0">
+          <div style="font-size:13px;font-weight:700">${item.image||''} ${esc(item.title)||'Untitled'}</div>
+          <div class="tiny mutedDim">${esc(item.category)}</div>
+        </div>
+        <div style="display:flex;gap:6px;flex-shrink:0">
+          <button class="iconbox" onclick="App.openItemForm('${type}','${item.id}')">✏️</button>
+          <button class="iconbox" onclick="App.deleteItem('${type}','${item.id}')">🗑️</button>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="pill sm ${item.published?'active':''}" onclick="App.patchItem('${type}','${item.id}','published')">${item.published?'Published':'Draft'}</button>
+        <button class="pill sm ${item.featured?'active':''}" onclick="App.patchItem('${type}','${item.id}','featured')">${item.featured?'★ Featured':'Not featured'}</button>
+        <button class="pill sm ${item.familySafe!==false?'active':''}" onclick="App.patchItem('${type}','${item.id}','familySafe')">${item.familySafe!==false?'🛡️ Family Safe':'⚠️ Mature'}</button>
+      </div>
+    </div>`).join('');
+}
+function setAdminQuery(type,q){ S.adminListFilter[type].q=q; document.getElementById('admin-list').innerHTML = adminListHTML(type, filteredAdminItems(type)); }
+function setAdminStatus(type,status){ S.adminListFilter[type].status=status; render(); }
+function filteredAdminItems(type){
+  const f = S.adminListFilter[type];
+  return (S.collections[type]||[]).filter(i=>{
+    if(f.status==='published' && !i.published) return false;
+    if(f.status==='draft' && i.published) return false;
+    if(f.status==='featured' && !i.featured) return false;
+    if(f.q && !i.title.toLowerCase().includes(f.q.toLowerCase())) return false;
+    return true;
+  });
+}
+function patchItem(type,id,field){
+  S.collections[type] = S.collections[type].map(i=> i.id===id ? Object.assign({}, i, {[field]: field==='published'||field==='featured' ? !i[field] : !(i.familySafe!==false)}) : i);
+  dbSet('ixai_c_'+type, S.collections[type]);
+  render();
+}
+function deleteItem(type,id){
+  S.collections[type] = S.collections[type].filter(i=>i.id!==id);
+  dbSet('ixai_c_'+type, S.collections[type]);
+  toast(TYPES[type].singular+' deleted');
+  render();
+}
+function openItemForm(type,id){
+  const existing = id ? S.collections[type].find(i=>i.id===id) : null;
+  S.adminEditing = Object.assign({__type:type}, existing || emptyItemFor(type));
+  render();
+}
+function closeItemForm(){ S.adminEditing=null; render(); }
+
+function itemFormHTML(type, item){
+  const cfg = TYPES[type];
+  return `
+    <button onclick="App.closeItemForm()" class="tiny" style="background:none;border:none;color:var(--muted);margin-bottom:12px">‹ Back</button>
+    <h2 style="font-size:15px;font-weight:700;margin-bottom:12px">${item.title? 'Edit '+cfg.singular : 'New '+cfg.singular}</h2>
+    <div class="card pad-lg">
+      <div class="field"><label>${cfg.singular} Name / Title</label><input id="f-title" class="input" value="${esc(item.title)}" placeholder="e.g. CapCut Official APK" /></div>
+      <div class="field"><label>Emoji / Icon</label><input id="f-image" class="input" value="${esc(item.image)}" maxlength="4" placeholder="✨" /></div>
+      <div class="field"><label>Category</label><select id="f-category" class="select">${cfg.categories.map(c=>`<option value="${c}" ${item.category===c?'selected':''}>${c}</option>`).join('')}</select></div>
+      <div class="field"><label>Short Description</label><input id="f-description" class="input" value="${esc(item.description)}" placeholder="One-line description" /></div>
+      <div class="field"><label>${cfg.bodyLabel||'Content'}</label><textarea id="f-body" class="textarea" placeholder="${cfg.hasCopy? 'Full prompt/template text users will copy' : 'Full content / details'}">${esc(item.body)}</textarea></div>
+      ${cfg.hasLink? `<div class="field"><label>${type==='apk'?'APK Download Link (hosted file URL)':cfg.linkLabel+' Link'}</label><input id="f-link" class="input" value="${esc(item.link)}" placeholder="https://..." />
+        ${type==='apk'? '<p class="tiny mutedDim" style="margin-top:6px">This is a link to a file you host elsewhere (your own storage/CDN) — paste that direct download URL. See the note below.</p>' : ''}</div>` : ''}
+      ${cfg.hasVersion? `<div class="field"><label>Version</label><input id="f-version" class="input" value="${esc(item.version)}" placeholder="e.g. 1.0.0" /></div>` : ''}
+      ${cfg.hasSize? `<div class="field"><label>File Size</label><input id="f-size" class="input" value="${esc(item.size)}" placeholder="e.g. 45 MB" /></div>` : ''}
+      ${type==='apk'? `<div class="field"><label>Official / Authorized Source</label><input id="f-source" class="input" value="${esc(item.source||'')}" placeholder="e.g. Official developer website" /></div>` : ''}
+
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0"><span class="tiny" style="font-weight:700">Family Safe</span><button class="toggle ${item.familySafe!==false?'on':''}" id="f-familysafe" onclick="App.flipToggle('f-familysafe')"><span class="knob"></span></button></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0"><span class="tiny" style="font-weight:700">Featured</span><button class="toggle ${item.featured?'on':''}" id="f-featured" onclick="App.flipToggle('f-featured')"><span class="knob"></span></button></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0 16px"><span class="tiny" style="font-weight:700">Published</span><button class="toggle ${item.published?'on':''}" id="f-published" onclick="App.flipToggle('f-published')"><span class="knob"></span></button></div>
+
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-ghost" onclick="App.saveItem('${type}', false)">SAVE DRAFT</button>
+        <button class="btn btn-solid" onclick="App.saveItem('${type}', true)">${type==='apk'?'PUBLISH APK':type==='gpt'?'PUBLISH TEMPLATE':'PUBLISH'}</button>
+      </div>
+    </div>
+    ${type==='apk'? `<div class="card pad warnbox" style="margin-top:14px">
+      <p class="tiny" style="line-height:1.6"><strong style="color:var(--warn)">Note:</strong> this single HTML file has no server, so it can't accept real .apk binary uploads with a progress bar — it stores a link instead. To host actual APK files, connect real storage (Firebase Storage / S3) and only distribute files you have the legal right to share.</p>
+    </div>` : ''}
+  `;
+}
+function flipToggle(id){ document.getElementById(id).classList.toggle('on'); }
+function saveItem(type, publish){
+  const item = S.adminEditing;
+  item.title = document.getElementById('f-title').value.trim();
+  if(!item.title){ toast('Please add a title'); return; }
+  item.image = document.getElementById('f-image').value.trim() || '✨';
+  item.category = document.getElementById('f-category').value;
+  item.description = document.getElementById('f-description').value.trim();
+  item.body = document.getElementById('f-body').value.trim();
+  if(TYPES[type].hasLink) item.link = document.getElementById('f-link').value.trim();
+  if(TYPES[type].hasVersion) item.version = document.getElementById('f-version').value.trim();
+  if(TYPES[type].hasSize) item.size = document.getElementById('f-size').value.trim();
+  if(type==='apk') item.source = document.getElementById('f-source').value.trim();
+  item.familySafe = document.getElementById('f-familysafe').classList.contains('on');
+  item.featured = document.getElementById('f-featured').classList.contains('on');
+  item.published = publish || document.getElementById('f-published').classList.contains('on');
+
+  const list = S.collections[type];
+  const exists = list.some(i=>i.id===item.id);
+  const clean = Object.assign({}, item); delete clean.__type;
+  S.collections[type] = exists ? list.map(i=>i.id===item.id?clean:i) : [clean].concat(list);
+  dbSet('ixai_c_'+type, S.collections[type]);
+  toast(exists? TYPES[type].singular+' updated ✓' : TYPES[type].singular+' uploaded successfully ✓');
+  S.adminEditing = null;
+  render();
+}
+
+function adminMessagesHTML(){
+  if(!S.messages.length) return `<div class="empty"><div class="em">📭</div><p>No messages yet.</p></div>`;
+  return `<div class="flex-col">${S.messages.map(m=>`
+    <div class="card pad" style="opacity:${m.read?0.65:1}">
+      <div style="display:flex;justify-content:space-between;gap:8px">
+        <div style="min-width:0">
+          <div style="display:flex;align-items:center;gap:6px"><span style="font-size:13px;font-weight:700">${esc(m.name)}</span>${!m.read?'<span style="width:6px;height:6px;border-radius:50%;background:var(--cyan)"></span>':''}</div>
+          ${m.email? `<div class="tiny mutedDim">${esc(m.email)}</div>` : ''}
+          <p class="tiny" style="margin-top:6px;color:#cbd1ef">${esc(m.message)}</p>
+          <div class="tiny mutedDim" style="margin-top:6px">${new Date(m.createdAt).toLocaleString()}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0">
+          <button class="iconbox" onclick="App.toggleMsgRead('${m.id}')">${m.read?'📩':'📨'}</button>
+          <button class="iconbox" onclick="App.deleteMsg('${m.id}')">🗑️</button>
+        </div>
+      </div>
+    </div>`).join('')}</div>`;
+}
+function toggleMsgRead(id){ S.messages = S.messages.map(m=>m.id===id?Object.assign({},m,{read:!m.read}):m); dbSet('ixai_messages', S.messages); render(); }
+function deleteMsg(id){ S.messages = S.messages.filter(m=>m.id!==id); dbSet('ixai_messages', S.messages); render(); }
+
+function adminSettingsHTML(){
+  const s = S.settings;
+  return `<div class="card pad-lg">
+    <div class="field"><label>Broadcast Channel URL</label><input id="as-broadcast" class="input" value="${esc(s.broadcastChannelUrl)}" placeholder="https://instagram.com/channel/..." /></div>
+    <div class="field"><label>Instagram URL</label><input id="as-instagram" class="input" value="${esc(s.instagramUrl)}" placeholder="https://instagram.com/..." /></div>
+    <div class="field"><label>Admin Password</label><input id="as-pw" class="input" value="${esc(s.adminPassword)}" placeholder="Set a new admin password" /></div>
+    <button class="btn btn-solid" onclick="App.saveAdminSettings()">Save Settings</button>
+  </div>
+  <p class="tiny mutedDim" style="margin-top:12px;line-height:1.6">Note: this password gate runs entirely in the browser — fine for keeping casual visitors out, not a substitute for real backend authentication.</p>`;
+}
+function saveAdminSettings(){
+  S.settings.broadcastChannelUrl = document.getElementById('as-broadcast').value.trim();
+  S.settings.instagramUrl = document.getElementById('as-instagram').value.trim();
+  S.settings.adminPassword = document.getElementById('as-pw').value.trim() || 'ishank123';
+  dbSet('ixai_settings', S.settings);
+  toast('Settings saved ✓');
+}
+
+/* ============================================================
+   MAIN RENDER SWITCH
+   ============================================================ */
+function render(){
+  renderShell();
+  const app = document.getElementById('app');
+  let html = '';
+  if(S.page==='home') html = renderHome();
+  else if(S.page==='solver') html = renderSolver();
+  else if(TYPE_ORDER.includes(S.page)) html = renderList(S.page);
+  else if(S.page==='search') html = renderSearch();
+  else if(S.page==='favorites') html = renderFavorites();
+  else if(S.page==='message') html = renderMessage();
+  else if(S.page==='profile') html = renderProfile();
+  else if(S.page==='settings') html = renderSettingsPage();
+  else if(S.page==='admin') html = S.adminAuthed ? renderAdminDashboard() : renderAdminGate();
+  else html = renderHome();
+  app.innerHTML = html;
+}
+function toggleFamilySafe(){ S.familySafe=!S.familySafe; dbSet('ixai_family_safe', S.familySafe); render(); }
+
+/* ---------- expose API ---------- */
+window.App = {
+  nav, openMenu, closeMenu, toggleFamilySafe,
+  setSubject, setSolverMode, onSolverImage, clearSolverImage, copySolverAnswer, solve,
+  toggleExpand, copyBody, shareItem, toggleFav,
+  setListCat, setListQuery, runGlobalSearch,
+  sendMessage, saveAiSettings,
+  adminLogin, adminLogout, setAdminSection, setAdminQuery, setAdminStatus,
+  patchItem, deleteItem, openItemForm, closeItemForm, flipToggle, saveItem,
+  toggleMsgRead, deleteMsg, saveAdminSettings
+};
+
+init();
+</script>
+
+</body>
+</html>
